@@ -45,3 +45,39 @@ int transmit_command(){
 	return 0;
 
 }
+
+void accept_print(){
+
+	uint8_t * newLine = (uint8_t *)"\r\n";
+	if(temp==*newLine){
+		uart_status=SEND_VALUE;
+		setTimer2(50);
+
+		print_commnad=0;
+	}
+
+
+}
+
+void check_commnad(){
+
+
+    if(transmit_command()==1){
+    	print_commnad=1;
+		clear_user_command();
+    }else if(stop_command()==1){
+    	send_value_active=0;
+    	print_commnad=0;
+		clear_user_command();
+    }else {
+     	print_commnad=0;
+		clear_user_command();
+    }
+
+
+    if(send_value_active==1){
+	  uart_status=SEND_VALUE;
+    }
+
+
+}

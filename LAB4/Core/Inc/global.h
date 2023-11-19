@@ -52,5 +52,9 @@ extern int stop_command();
 
 extern int transmit_command();
 
+extern void accept_print();
+
+extern void check_commnad();
+
 extern int send_value_active;
 #endif /* INC_GLOBAL_H_ */

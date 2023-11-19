@@ -12,14 +12,7 @@ void uart_communication_fsm(){
 	switch(uart_status){
 	 case WAIT_FOR_COMMAND:
 		if(print_commnad==1){
-
-			uint8_t * newLine = (uint8_t *)"\r\n";
-			if(temp==*newLine){
-				uart_status=SEND_VALUE;
-				setTimer2(50);
-
-				print_commnad=0;
-			}
+			accept_print();
 		}
 
 		break;

@@ -22,26 +22,11 @@ void command_parser_fsm(){
 		case RECEIVE_COMMNAD:
 
 			if(temp=='#'){
+				check_commnad();
 
-
-                if(transmit_command()==1){
-                	print_commnad=1;
-    				clear_user_command();
-                }else if(stop_command()==1){
-                	send_value_active=0;
-                	print_commnad=0;
-    				clear_user_command();
-                }else {
-                 	print_commnad=0;
-        			clear_user_command();
-                }
-
-
-                if(send_value_active==1){
-				  uart_status=SEND_VALUE;
-                }
 
 				parser_status=START_PARSER;
+
 			}else if (temp!='#'){
 
 			  user_commnad[index_user_command]=temp;
