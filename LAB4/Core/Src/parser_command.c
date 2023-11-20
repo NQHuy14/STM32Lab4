@@ -22,6 +22,7 @@ void command_parser_fsm(){
 		case RECEIVE_COMMNAD:
 
 			if(temp=='#'){
+
 				check_commnad();
 
 
@@ -31,6 +32,9 @@ void command_parser_fsm(){
 
 			  user_commnad[index_user_command]=temp;
 			  index_user_command++;
+			}else if(temp=='!'){
+				clear_user_command();
+				index_user_command=0;
 			}
 
 			break;

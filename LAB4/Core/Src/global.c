@@ -48,13 +48,13 @@ int transmit_command(){
 
 void accept_print(){
 
-	uint8_t * newLine = (uint8_t *)"\r\n";
-	if(temp==*newLine){
+//	uint8_t * newLine = (uint8_t *)"\r\n";
+//	if(temp==*newLine){
 		uart_status=SEND_VALUE;
 		setTimer2(50);
 
 		print_commnad=0;
-	}
+//	}
 
 
 }
