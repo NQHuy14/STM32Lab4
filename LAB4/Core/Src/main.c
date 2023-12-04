@@ -23,7 +23,7 @@
 #include"global.h"
 #include "parser_commnad.h"
 #include "fsm_uart.h"
-
+#include "scheduler.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -83,10 +83,25 @@ void HAL_UART_RxCpltCallback ( UART_HandleTypeDef * huart ){
   * @brief  The application entry point.
   * @retval int
   */
+
+void blinkyLed() {
+	HAL_GPIO_TogglePin(GPIOA,RED_LED_Pin);
+}
+void runUart(){
+	uart_communication_fsm();
+}
+
+void runParser(){
+	   if(buffer_flag==1){
+		   command_parser_fsm();
+		   buffer_flag=0;
+	   }
+}
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	parser_status=START_PARSER;
+	uart_status=WAIT_FOR_COMMAND;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -116,29 +131,23 @@ int main(void)
 
   HAL_UART_Receive_IT(&huart2, &temp, 1);
 
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer1(50);
-  setTimer2(50);
-  parser_status=START_PARSER;
-  uart_status=WAIT_FOR_COMMAND;
+  SCH_Init();
+  SCH_Add_Task(blinkyLed,0,500);
+  SCH_Add_Task(runParser,0,10);
+  SCH_Add_Task(runUart,0, 50);
+
+
 
 
   while (1)
   {
-   if(timer1_flag==1){
-	HAL_GPIO_TogglePin(GPIOA,RED_LED_Pin);
-	 setTimer1(50);
-   }
 
-		   if(buffer_flag==1){
-			   command_parser_fsm();
-			   buffer_flag=0;
-		   }
-
-		   uart_communication_fsm();
+	  SCH_Dispatch_Tasks();
 
     /* USER CODE END WHILE */
 
@@ -347,6 +356,7 @@ static void MX_GPIO_Init(void)
  void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim )
 {
    timerRun();
+   SCH_Update();
 }
 
 /* USER CODE END 4 */

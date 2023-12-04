@@ -13,6 +13,9 @@
 #include "main.h"
 #include "string.h"
 #include "software_timer.h"
+#include "scheduler.h"
+#include "fsm_uart.h"
+
 
 #define START_PARSER 1
 #define RECEIVE_COMMNAD 2
@@ -57,4 +60,8 @@ extern void accept_print();
 extern void check_commnad();
 
 extern int send_value_active;
+
+
+
+
 #endif /* INC_GLOBAL_H_ */

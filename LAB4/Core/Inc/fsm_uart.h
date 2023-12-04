@@ -10,7 +10,7 @@
 #include "global.h"
 void uart_communication_fsm();
 
-
+extern void Transmition();
 
 
 #endif /* INC_FSM_UART_H_ */

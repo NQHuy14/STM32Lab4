@@ -29,13 +29,18 @@ uint32_t ADC_value=0;
 int send_value_active=0;
 
 
+
+
 void clear_user_command(){
 	memset(user_commnad, 0, sizeof(user_commnad));
 }
 
 
 int stop_command(){
-	if(user_commnad[0]=='O'&&user_commnad[1]=='K'&&user_commnad[2]==0) return 1;
+	if(user_commnad[0]=='O'&&user_commnad[1]=='K'&&user_commnad[2]==0){
+
+		return 1;
+	}
 	return 0;
 
 }
@@ -51,7 +56,7 @@ void accept_print(){
 //	uint8_t * newLine = (uint8_t *)"\r\n";
 //	if(temp==*newLine){
 		uart_status=SEND_VALUE;
-		setTimer2(50);
+//		setTimer2(50);
 
 		print_commnad=0;
 //	}
@@ -65,11 +70,14 @@ void check_commnad(){
     if(transmit_command()==1){
     	print_commnad=1;
 		clear_user_command();
+
     }else if(stop_command()==1){
+
     	send_value_active=0;
     	print_commnad=0;
 		clear_user_command();
     }else {
+
      	print_commnad=0;
 		clear_user_command();
     }
